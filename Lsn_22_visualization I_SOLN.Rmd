@@ -1,0 +1,128 @@
+---
+title: "AY22-2 SE370: Lesson 22 - Data Visualization"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+library(dplyr)
+```
+
+## ggplot2
+
+There are a lot of plotting libraries for R, but `ggplot2` is the most popular. It is part of the tidyverse collection of libraries.
+
+For today's practice, we'll use the `mtcars` dataset:
+
+```{r}
+data(mtcars)
+head(mtcars)
+```
+
+`ggplot` is based on the concept of layering. First, we create a ggplot object:
+
+```{r}
+ggplot()
+```
+
+Then, we can add our data:
+
+```{r}
+ggplot(data = mtcars, aes(x = mpg, y = hp))
+```
+
+Then, we add geoms. Geoms are different geometirc formats we use to represent data. Some commonly used geoms include:
+
+-   `geom_histogram()`: histogram
+
+-   `geom_bar()`: bar plot
+
+-   `geom_point()`: scatter plot
+
+-   `geom_line()`: adds lines connecting data
+
+-   `geom_boxplot()`: box plot
+
+You can access a more robust menu of geoms & their use cases [HERE](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf).
+
+```{r}
+
+ggplot(data = mtcars, aes(x = mpg, y = hp)) + geom_point()
+```
+
+We can keep adding layers...
+
+```{r}
+ggplot(data = mtcars, aes(x = mpg, y = hp)) + geom_point() + geom_line()
+```
+
+And we can customize with very minor tweaks:
+
+```{r}
+ggplot(data = mtcars, aes(x = mpg, y = hp)) + 
+  geom_point(color = 'red', size = 2) + 
+  geom_line(color = 'blue')
+```
+
+There are a lot of ways to customize using `ggplot2`. But you may have to search the internet figure out how to execute it! The [R Graphics Cookbook](http://www.cookbook-r.com/) is a great resource, too.
+
+Finally, we can save plots in our global environment, then add to them later.
+
+```{r}
+my_plot <- ggplot(data = mtcars, aes(x = mpg, y = hp)) + 
+  geom_point(color = 'red', size = 2) + 
+  geom_line(color = 'blue')
+```
+
+Now we can access `my_plot` and add a theme!
+
+```{r}
+my_plot + theme_light()
+```
+
+## Let's Practice!
+
+1.  Make a scatterplot of `mpg` vs. `disp`. Change the color of the points to red.
+
+    ```{r mpg v. disp}
+
+    ggplot(data = mtcars, aes(x = mpg, y = disp)) + geom_point(color = "red")
+    ```
+
+2.  Add a line to your scatterplot.
+
+    ```{r add a line}
+
+    ggplot(data = mtcars, aes(x = mpg, y = disp)) + geom_point(color = "red") + geom_line()
+    ```
+
+3.  Add `color = factor(cyl)` within your `aes()` argument. What happens?
+
+    ```{r color = factor(cyl)}
+
+    ggplot(data = mtcars, aes(x = mpg, y = disp, color = factor(cyl))) + geom_point()
+    ```
+
+4.  Add the minimal theme to your plot.
+
+    ```{r theme}
+    ggplot(data = mtcars, aes(x = mpg, y = disp, color = factor(cyl))) + geom_point() + theme_minimal()
+    ```
+
+5.  Add a title using `ggtitle()` - and then center it!
+
+    ```{r title and center it}
+    ggplot(data = mtcars, aes(x = mpg, y = disp, color = factor(cyl))) + geom_point() + theme_minimal() + ggtitle("MPG v. DISP") + theme(plot.title = element_text(hjust = 0.5))
+    ```
+
+6.  Make a bar chart showing the number of cars with 3, 4 and 5 gears. *Hint: you only need to define an x variable in `aes()`*
+
+    ```{r bar chart}
+
+    ggplot(data = mtcars, aes(x = gear)) + geom_bar()
+    ```
+
+7.  Use `facet_wrap()` with the `cyl` variable to create 3 versions of your bar plot from the above question - one for each value of `cyl`.
+
+    ```{r facet_grid}
+    ggplot(data = mtcars, aes(x = gear)) + geom_bar() + facet_wrap(~cyl)
+    ```
