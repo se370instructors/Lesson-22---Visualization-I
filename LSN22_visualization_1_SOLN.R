@@ -100,6 +100,8 @@ ggplot(data = mtcars, aes(x = mpg)) + geom_density() + theme_bw(base_size = 14) 
 
 #---ggplot exercise---#
 #-1.create a histogram showing how much money movies make (use the adjusted column).
+movies <- read_csv('movie_data.csv')
+
 ggplot(movies, aes(x = adjusted)) + geom_histogram()
 
 #make decent looking x and x axes, add a centered title, and apply a theme that isn't theme_bw()
